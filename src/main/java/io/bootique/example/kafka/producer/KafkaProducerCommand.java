@@ -2,14 +2,14 @@ package io.bootique.example.kafka.producer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.nhl.bootique.cli.Cli;
-import com.nhl.bootique.cli.CliOption;
-import com.nhl.bootique.command.CommandMetadata;
-import com.nhl.bootique.command.CommandOutcome;
-import com.nhl.bootique.command.CommandWithMetadata;
-import com.nhl.bootique.shutdown.ShutdownManager;
+import io.bootique.cli.Cli;
+import io.bootique.cli.CliOption;
+import io.bootique.command.CommandMetadata;
+import io.bootique.command.CommandOutcome;
+import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.KafkaClientFactory;
 import io.bootique.kafka.client.producer.ProducerConfig;
+import io.bootique.shutdown.ShutdownManager;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
