@@ -2,9 +2,9 @@ package io.bootique.example.kafka.producer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import io.bootique.application.CommandMetadata;
+import io.bootique.application.OptionMetadata;
 import io.bootique.cli.Cli;
-import io.bootique.cli.CliOption;
-import io.bootique.command.CommandMetadata;
 import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.KafkaClientFactory;
@@ -38,13 +38,13 @@ public class KafkaProducerCommand extends CommandWithMetadata {
         this.shutdownManager = shutdownManager;
     }
 
-    private static CliOption topicOption() {
-        return CliOption.builder(TOPIC_OPT).description("Kafka topic to write data to.")
+    private static OptionMetadata topicOption() {
+        return OptionMetadata.builder(TOPIC_OPT).description("Kafka topic to write data to.")
                 .valueRequired("topic_name").build();
     }
 
-    private static CliOption clusterOption() {
-        return CliOption.builder(BOOTSTRAP_SERVER_OPT).description("Single Kafka bootstrap server. " +
+    private static OptionMetadata clusterOption() {
+        return OptionMetadata.builder(BOOTSTRAP_SERVER_OPT).description("Single Kafka bootstrap server. " +
                 "Can be specified multiple times. Optional. " +
                 "If omitted, will be read from YAML or environment variable BQ_KAFKACLIENT_BOOTSTRAPSERVERS_DEFAULT.")
                 .valueRequired("host:port").build();
