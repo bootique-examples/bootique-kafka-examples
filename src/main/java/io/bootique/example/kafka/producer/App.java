@@ -16,7 +16,7 @@ public class App implements Module {
 
     @Override
     public void configure(Binder binder) {
-        BQCoreModule.setDefaultCommand(binder, KafkaProducerCommand.class);
+        BQCoreModule.extend(binder).setDefaultCommand(KafkaProducerCommand.class);
     }
 
 
