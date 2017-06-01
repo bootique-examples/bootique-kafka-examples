@@ -4,6 +4,8 @@
 
 An example of the producer to send streams of data to topics in the [Kafka](https://kafka.apache.org) cluster integrated for [Bootique](http://bootique.io).
 
+Also consider an example of [Kafka-consumer](https://github.com/bootique-examples/bootique-kafka-consumer). 
+
 *For additional help/questions about this example send a message to
 [Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
 
