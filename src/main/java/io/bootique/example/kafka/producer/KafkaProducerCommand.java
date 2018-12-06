@@ -22,7 +22,6 @@ import java.io.InputStreamReader;
 public class KafkaProducerCommand extends CommandWithMetadata {
 
     private static final String TOPIC_OPT = "topic";
-    private static final String CLUSTER_OPT = "cluster";
     private static final String QUIT_COMMAND = "\\q";
 
     private Provider<KafkaProducerFactory> kafkaProvider;
@@ -30,7 +29,7 @@ public class KafkaProducerCommand extends CommandWithMetadata {
 
     @Inject
     public KafkaProducerCommand(Provider<KafkaProducerFactory> kafkaProvider, ShutdownManager shutdownManager) {
-        super(CommandMetadata.builder("producer").addOption(topicOption()).addOption(clusterOption()));
+        super(CommandMetadata.builder("producer").addOption(topicOption()));
         this.kafkaProvider = kafkaProvider;
         this.shutdownManager = shutdownManager;
     }
@@ -38,13 +37,6 @@ public class KafkaProducerCommand extends CommandWithMetadata {
     private static OptionMetadata topicOption() {
         return OptionMetadata.builder(TOPIC_OPT).description("Kafka topic to write data to.")
                 .valueRequired("topic_name").build();
-    }
-
-    private static OptionMetadata clusterOption() {
-        return OptionMetadata.builder(CLUSTER_OPT)
-                .description("Kafka cluster name as defined in config.yml. Optional. If omitted, default will be used.")
-                .valueRequired()
-                .build();
     }
 
     @Override
@@ -57,7 +49,7 @@ public class KafkaProducerCommand extends CommandWithMetadata {
 
         Producer<byte[], String> producer = kafkaProvider.get()
                 .charValueProducer()
-                .cluster(cli.optionString(CLUSTER_OPT))
+                .cluster(App.DEFAULT_CLUSTER_NAME)
                 .create();
 
         shutdownManager.addShutdownHook(() -> {

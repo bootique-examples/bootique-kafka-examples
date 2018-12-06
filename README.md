@@ -26,25 +26,25 @@ Here is how to build it:
 
 Now you can check the options available in your app:
 
-    java -jar target/bootique-kafka-producer-0.0.1-SNAPSHOT.jar --help
-
-	Option                                              Description
-    ------                                              -----------    
-    -b host:port, --bootstrap-server=host:port          Single Kafka bootstrap server. Can be specified multiple times.
-                                                        Optional. If omitted, will be read from YAML or environment variable
-                                                            BQ_KAFKACLIENT_BOOTSTRAPSERVERS_DEFAULT.
+    NAME
+          bootique-kafka-producer-0.0.1-SNAPSHOT.jar
     
-    -c yaml_location, --config=yaml_location            Specifies YAML config location, which can be a file path or a URL.
+    OPTIONS
+          -b host:port, --bootstrap=host:port
+               Single Kafka bootstrap server.
     
-    -h, --help                                          Prints this message.
+          -c yaml_location, --config=yaml_location
+               Specifies YAML config location, which can be a file path or a URL.
     
-    -H, --help-config                                   Prints information about application modules and their configuration
-                                                            options.
+          -h, --help
+               Prints this message.
     
-    -p, --producer
+          -H, --help-config
+               Prints information about application modules and their configuration options.
     
-    -t topic_name, --topic=topic_name                   Kafka topic to write data to.
-    
+          -t topic_name, --topic=topic_name
+               Kafka topic to write data to.
+        
 To test this example, you will need a Kafka broker release 0.10.0.0 and a topic to write some string data into it. 
 Run Zookeeper and Kafka broker both on localhost from Kafka root directory:
 
@@ -58,5 +58,5 @@ Run kafka-console-consumer.sh script to read string data from a topic:
 
 Run the producer:
 
-    java -jar target/bootique-kafka-producer-0.0.1-SNAPSHOT.jar --bootstrap-server=localhost:9092 --topic=topic 
+    java -jar target/bootique-kafka-producer-0.0.1-SNAPSHOT.jar --bootstrap=localhost:9092 --topic=topic 
 
