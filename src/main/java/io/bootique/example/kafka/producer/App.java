@@ -11,12 +11,17 @@ import io.bootique.Bootique;
 public class App implements Module {
 
     public static void main(String[] args) {
-        Bootique.app(args).autoLoadModules().module(App.class).run();
+        Bootique.app(args)
+                .autoLoadModules()
+                .module(App.class)
+                .exec()
+                .exit();
     }
 
     @Override
     public void configure(Binder binder) {
-        BQCoreModule.extend(binder).setDefaultCommand(KafkaProducerCommand.class);
+        BQCoreModule.extend(binder)
+                .setDefaultCommand(KafkaProducerCommand.class);
     }
 
 

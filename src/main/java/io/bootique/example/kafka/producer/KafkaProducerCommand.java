@@ -2,13 +2,12 @@ package io.bootique.example.kafka.producer;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import io.bootique.kafka.client.producer.KafkaProducerFactory;
 import io.bootique.meta.application.CommandMetadata;
 import io.bootique.meta.application.OptionMetadata;
 import io.bootique.cli.Cli;
 import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
-import io.bootique.kafka.client.KafkaClientFactory;
-import io.bootique.kafka.client.producer.ProducerConfig;
 import io.bootique.shutdown.ShutdownManager;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -23,16 +22,14 @@ import java.io.InputStreamReader;
 public class KafkaProducerCommand extends CommandWithMetadata {
 
     private static final String TOPIC_OPT = "topic";
-    private static final String BOOTSTRAP_SERVER_OPT = "bootstrap-server";
-
-    private static final String DEFAULT_CLUSTER_NAME = "default";
+    private static final String CLUSTER_OPT = "cluster";
     private static final String QUIT_COMMAND = "\\q";
 
-    private Provider<KafkaClientFactory> kafkaProvider;
+    private Provider<KafkaProducerFactory> kafkaProvider;
     private ShutdownManager shutdownManager;
 
     @Inject
-    public KafkaProducerCommand(Provider<KafkaClientFactory> kafkaProvider, ShutdownManager shutdownManager) {
+    public KafkaProducerCommand(Provider<KafkaProducerFactory> kafkaProvider, ShutdownManager shutdownManager) {
         super(CommandMetadata.builder("producer").addOption(topicOption()).addOption(clusterOption()));
         this.kafkaProvider = kafkaProvider;
         this.shutdownManager = shutdownManager;
@@ -44,10 +41,10 @@ public class KafkaProducerCommand extends CommandWithMetadata {
     }
 
     private static OptionMetadata clusterOption() {
-        return OptionMetadata.builder(BOOTSTRAP_SERVER_OPT).description("Single Kafka bootstrap server. " +
-                "Can be specified multiple times. Optional. " +
-                "If omitted, will be read from YAML or environment variable BQ_KAFKACLIENT_BOOTSTRAPSERVERS_DEFAULT.")
-                .valueRequired("host:port").build();
+        return OptionMetadata.builder(CLUSTER_OPT)
+                .description("Kafka cluster name as defined in config.yml. Optional. If omitted, default will be used.")
+                .valueRequired()
+                .build();
     }
 
     @Override
@@ -58,12 +55,10 @@ public class KafkaProducerCommand extends CommandWithMetadata {
             return CommandOutcome.failed(-1, "No --topic specified");
         }
 
-        ProducerConfig<byte[], String> config = ProducerConfig
-                .charValueConfig()
-                .bootstrapServers(cli.optionStrings(BOOTSTRAP_SERVER_OPT))
-                .build();
-
-        Producer<byte[], String> producer = kafkaProvider.get().createProducer(DEFAULT_CLUSTER_NAME, config);
+        Producer<byte[], String> producer = kafkaProvider.get()
+                .charValueProducer()
+                .cluster(cli.optionString(CLUSTER_OPT))
+                .create();
 
         shutdownManager.addShutdownHook(() -> {
             producer.close();
@@ -76,9 +71,9 @@ public class KafkaProducerCommand extends CommandWithMetadata {
 
     private CommandOutcome runConsole(String topic, Producer<byte[], String> producer) {
 
-        System.out.println("");
+        System.out.println();
         System.out.println("    Start typing messages below. Type '\\q' to exit.");
-        System.out.println("");
+        System.out.println();
 
         try (BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in))) {
             readAndPost(stdinReader, topic, producer);
