@@ -27,7 +27,7 @@ Here is how to build it:
 Now you can check the options available in your app:
 
     NAME
-          bootique-kafka-producer-0.0.1-SNAPSHOT.jar
+          bootique-kafka-producer-2.0.jar
     
     OPTIONS
           -b host:port, --bootstrap=host:port
@@ -58,5 +58,5 @@ Run kafka-console-consumer.sh script to read string data from a topic:
 
 Run the producer:
 
-    java -jar target/bootique-kafka-producer-0.0.1-SNAPSHOT.jar --bootstrap=localhost:9092 --topic=topic 
+    java -jar target/bootique-kafka-producer-2.0.jar --bootstrap=localhost:9092 --topic=topic 
 
