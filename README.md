@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/bootique-examples/bootique-kafka-producer.svg)](https://travis-ci.org/bootique-examples/bootique-kafka-producer)
+[![verify](https://github.com/bootique-examples/bootique-kafka-producer/actions/workflows/verify.yml/badge.svg)](https://github.com/bootique-examples/bootique-kafka-producer/actions/workflows/verify.yml)
 
 # bootique-kafka-producer
 
