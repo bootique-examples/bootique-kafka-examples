@@ -1,15 +1,15 @@
 package io.bootique.example.kafka.producer;
 
-import com.google.inject.Binder;
-import com.google.inject.Module;
 import io.bootique.BQCoreModule;
 import io.bootique.Bootique;
+import io.bootique.di.BQModule;
+import io.bootique.di.Binder;
 import io.bootique.meta.application.OptionMetadata;
 
 /**
  * Main app class.
  */
-public class App implements Module {
+public class App implements BQModule {
 
     static final String DEFAULT_CLUSTER_NAME = "default_cluster";
     private static final String BOOTSTRAP_SERVER_OPT = "bootstrap";

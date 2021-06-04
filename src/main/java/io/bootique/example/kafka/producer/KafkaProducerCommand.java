@@ -1,7 +1,5 @@
 package io.bootique.example.kafka.producer;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
 import io.bootique.kafka.client.producer.KafkaProducerFactory;
 import io.bootique.meta.application.CommandMetadata;
 import io.bootique.meta.application.OptionMetadata;
@@ -12,6 +10,8 @@ import io.bootique.shutdown.ShutdownManager;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
