@@ -9,6 +9,10 @@ Also consider an example of [Kafka-consumer](https://github.com/bootique-example
 *For additional help/questions about this example send a message to
 [Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
 
+You can find different versions of framework in use at
+* [1.x](https://github.com/bootique-examples/bootique-kafka-producer/tree/1.x)
+* [2.x](https://github.com/bootique-examples/bootique-kafka-producer/tree/2.x)
+
 ## Prerequisites
 
 * Java 1.8 or newer.
