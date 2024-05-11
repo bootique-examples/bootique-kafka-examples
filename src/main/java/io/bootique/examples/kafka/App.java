@@ -19,6 +19,8 @@ public class App implements BQModule {
 
     @Override
     public void configure(Binder binder) {
-        BQCoreModule.extend(binder).addCommand(ProducerCommand.class);
+        BQCoreModule.extend(binder)
+                .addCommand(ProducerCommand.class)
+                .addCommand(ConsumerCommand.class);
     }
 }

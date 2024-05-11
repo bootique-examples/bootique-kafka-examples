@@ -37,39 +37,64 @@ mvn clean package
 
 ## Run
 
-Now you can check the options available in your app:
+The following command prints a help message with supported options:
+```bash  
+java -jar target/bootique-kafka-examples-3.0.jar
+```
 
-    NAME
-          bootique-kafka-producer-0.0.1-SNAPSHOT.jar
-    
-    OPTIONS
-          -b host:port, --bootstrap=host:port
-               Single Kafka bootstrap server.
-    
-          -c yaml_location, --config=yaml_location
-               Specifies YAML config location, which can be a file path or a URL.
-    
-          -h, --help
-               Prints this message.
-    
-          -H, --help-config
-               Prints information about application modules and their configuration options.
-    
-          -t topic_name, --topic=topic_name
-               Kafka topic to write data to.
-        
-To test this example, you will need a Kafka broker release 0.10.0.0 and a topic to write some string data into it. 
-Run Zookeeper and Kafka broker both on localhost from Kafka root directory:
+```
+NAME
+      bootique-kafka-examples-3.0.jar
 
-    bin/zookeeper-server-start.sh config/zookeeper.properties
-    
-    bin/kafka-server-start.sh config/server.properties
-    
-Run kafka-console-consumer.sh script to read string data from a topic:
-        
-    bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic topic 
+OPTIONS
+      --config=yaml_location
+           Specifies YAML config location, which can be a file path or a URL.
 
-Run the producer:
+      --consumer
+           Starts a Kafka consumer for the specified topic
 
-    java -jar target/bootique-kafka-producer-0.0.1-SNAPSHOT.jar --bootstrap=localhost:9092 --topic=topic 
+      -h, --help
+           Prints this message.
 
+      -H, --help-config
+           Prints information about application modules and their configuration options.
+
+      -p, --producer
+           Starts an interactive Kafka producer for the specified topic
+
+      --topic=topic_name
+           Kafka topic name
+
+      --topic=topic_name
+           Kafka topic name
+```
+
+So first, let's run a producer that will write to `bq-kafka-example` topic:
+```
+java -jar target/bootique-kafka-examples-3.0.jar --producer --config=config.yml --topic=bq-kafka-example 
+```
+
+This starts an interactive console app that allows you to type messages, one line at a time, that are sent to Kafka:
+
+```
+INFO  [2024-05-11 22:22:39,684] main i.b.k.c.p.DefaultKafkaProducerBuilder: Creating producer. Cluster: 127.0.0.1:9092.
+INFO  [2024-05-11 22:22:39,713] main o.a.k.c.t.i.KafkaMetricsCollector: initializing Kafka metrics collector
+INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka version: 3.7.0
+INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka commitId: 2ae524ed625438c5
+INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka startTimeMs: 1715466159773
+
+    Start typing messages below. Type '\q' to exit.
+
+bq-kafka-example > Hi!
+bq-kafka-example > Hi again!
+```
+
+You can read these messages from the topic using Kafka provided console consumer, but let's start our own consumer. 
+Open a new terminal window, change to `bootique-kafka-examples/` directory, and run the same Java app, but with
+`--consumer` command:
+
+```
+java -jar target/bootique-kafka-examples-3.0.jar --consumer --config=config.yml --topic=bq-kafka-example
+```
+Now, return to the running producer window, and type more messages. All of them should be mirrored in the consumer 
+command output.
