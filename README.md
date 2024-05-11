@@ -71,7 +71,9 @@ OPTIONS
 
 So first, let's run a producer that will write to `bq-kafka-example` topic:
 ```
-java -jar target/bootique-kafka-examples-3.0.jar --producer --config=config.yml --topic=bq-kafka-example 
+java -jar target/bootique-kafka-examples-3.0.jar --producer \
+    --config=config.yml \
+    --topic=bq-kafka-example 
 ```
 
 This starts an interactive console app that allows you to type messages, one line at a time, that are sent to Kafka:
@@ -94,7 +96,9 @@ Open a new terminal window, change to `bootique-kafka-examples/` directory, and 
 `--consumer` command:
 
 ```
-java -jar target/bootique-kafka-examples-3.0.jar --consumer --config=config.yml --topic=bq-kafka-example
+java -jar target/bootique-kafka-examples-3.0.jar --consumer \
+    --config=config.yml \
+    --topic=bq-kafka-example
 ```
 Now, return to the running producer window, and type more messages. All of them should be mirrored in the consumer 
 command output.
