@@ -4,7 +4,6 @@ import io.bootique.cli.Cli;
 import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.consumer.KafkaConsumerFactory;
-import io.bootique.kafka.client.consumer.KafkaPollingTracker;
 import io.bootique.meta.application.CommandMetadata;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -38,7 +37,7 @@ public class ConsumerCommand extends CommandWithMetadata {
             return CommandOutcome.failed(-1, "No '--topic' specified");
         }
 
-        KafkaPollingTracker poll = consumerProvider.get()
+       consumerProvider.get()
                 .charValueConsumer()
                 .group("my-group")
                 .autoCommit(true)

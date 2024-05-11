@@ -85,9 +85,9 @@ INFO  main o.a.k.c.u.AppInfoParser: Kafka startTimeMs: 1715466159773
 (producer) bq-kafka-example > Hi again!
 ```
 
-You can read these messages from the topic using Kafka provided console consumer, but let's start our own consumer. 
-Open a new terminal window, change to `bootique-kafka-examples/` directory, and run the same Java app, but with
-`--consumer` command:
+You can read these messages from the `bq-kafka-example` topic using Kafka standard console consumer, but let's start our 
+own consumer. Open a new terminal window, change to `bootique-kafka-examples/` directory, and run the same Java app, 
+but with `--consumer` command:
 
 ```
 java -jar target/bootique-kafka-examples-3.0.jar --consumer \
