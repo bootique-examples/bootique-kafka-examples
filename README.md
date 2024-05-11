@@ -62,10 +62,7 @@ OPTIONS
       -p, --producer
            Starts an interactive Kafka producer for the specified topic
 
-      --topic=topic_name
-           Kafka topic name
-
-      --topic=topic_name
+      -t topic_name, --topic=topic_name
            Kafka topic name
 ```
 
@@ -79,16 +76,13 @@ java -jar target/bootique-kafka-examples-3.0.jar --producer \
 This starts an interactive console app that allows you to type messages, one line at a time, that are sent to Kafka:
 
 ```
-INFO  [2024-05-11 22:22:39,684] main i.b.k.c.p.DefaultKafkaProducerBuilder: Creating producer. Cluster: 127.0.0.1:9092.
-INFO  [2024-05-11 22:22:39,713] main o.a.k.c.t.i.KafkaMetricsCollector: initializing Kafka metrics collector
-INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka version: 3.7.0
-INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka commitId: 2ae524ed625438c5
-INFO  [2024-05-11 22:22:39,773] main o.a.k.c.u.AppInfoParser: Kafka startTimeMs: 1715466159773
-
-    Start typing messages below. Type '\q' to exit.
-
-bq-kafka-example > Hi!
-bq-kafka-example > Hi again!
+INFO  main i.b.k.c.p.DefaultKafkaProducerBuilder: Creating producer. Cluster: 127.0.0.1:9092.
+INFO  main o.a.k.c.t.i.KafkaMetricsCollector: initializing Kafka metrics collector
+INFO  main o.a.k.c.u.AppInfoParser: Kafka version: 3.7.0
+INFO  main o.a.k.c.u.AppInfoParser: Kafka commitId: 2ae524ed625438c5
+INFO  main o.a.k.c.u.AppInfoParser: Kafka startTimeMs: 1715466159773
+(producer) bq-kafka-example > Hi!
+(producer) bq-kafka-example > Hi again!
 ```
 
 You can read these messages from the topic using Kafka provided console consumer, but let's start our own consumer. 
@@ -101,4 +95,4 @@ java -jar target/bootique-kafka-examples-3.0.jar --consumer \
     --topic=bq-kafka-example
 ```
 Now, return to the running producer window, and type more messages. All of them should be mirrored in the consumer 
-command output.
+command output. You can stop either producer or consumer with `Ctrl-c`.

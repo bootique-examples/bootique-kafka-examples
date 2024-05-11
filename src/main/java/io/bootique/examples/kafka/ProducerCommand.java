@@ -5,7 +5,6 @@ import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.producer.KafkaProducerFactory;
 import io.bootique.meta.application.CommandMetadata;
-import io.bootique.meta.application.OptionMetadata;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
@@ -20,17 +19,12 @@ import java.io.InputStreamReader;
  */
 public class ProducerCommand extends CommandWithMetadata {
 
-    private static final String TOPIC_OPT = "topic";
-    private static final String QUIT_COMMAND = "\\q";
-
     private final Provider<KafkaProducerFactory> producerProvider;
 
     private static CommandMetadata metadata() {
-        OptionMetadata omd = OptionMetadata.builder(TOPIC_OPT).description("Kafka topic name").valueRequired("topic_name").build();
         return CommandMetadata
                 .builder(ProducerCommand.class)
                 .description("Starts an interactive Kafka producer for the specified topic")
-                .addOption(omd)
                 .build();
     }
 
@@ -43,7 +37,7 @@ public class ProducerCommand extends CommandWithMetadata {
     @Override
     public CommandOutcome run(Cli cli) {
 
-        String topic = cli.optionString(TOPIC_OPT);
+        String topic = cli.optionString(App.TOPIC_OPT);
         if (topic == null) {
             return CommandOutcome.failed(-1, "No '--topic' specified");
         }
@@ -62,10 +56,6 @@ public class ProducerCommand extends CommandWithMetadata {
 
     private CommandOutcome runConsole(String topic, Producer<byte[], String> producer) {
 
-        System.out.println();
-        System.out.println("    Start typing messages below. Type '\\q' to exit.");
-        System.out.println();
-
         try (BufferedReader stdinReader = new BufferedReader(new InputStreamReader(System.in))) {
             readAndPost(stdinReader, topic, producer);
             return CommandOutcome.succeeded();
@@ -76,19 +66,14 @@ public class ProducerCommand extends CommandWithMetadata {
 
     private void readAndPost(BufferedReader reader, String topic, Producer<byte[], String> producer) throws IOException {
 
-        System.out.print(topic + " > ");
-        String message;
-        while ((message = reader.readLine()) != null) {
+        String message = "";
 
-            if (QUIT_COMMAND.equals(message)) {
-                break;
-            }
-
+        do {
             if (!"".equals(message)) {
                 producer.send(new ProducerRecord<>(topic, message));
             }
 
-            System.out.print(topic + " > ");
-        }
+            System.out.print("(producer) " + topic + " > ");
+        } while ((message = reader.readLine()) != null);
     }
 }

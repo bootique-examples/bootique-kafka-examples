@@ -6,7 +6,6 @@ import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.consumer.KafkaConsumerFactory;
 import io.bootique.kafka.client.consumer.KafkaPollingTracker;
 import io.bootique.meta.application.CommandMetadata;
-import io.bootique.meta.application.OptionMetadata;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
@@ -16,16 +15,12 @@ import java.time.Duration;
 
 public class ConsumerCommand extends CommandWithMetadata {
 
-    private static final String TOPIC_OPT = "topic";
-
     private final Provider<KafkaConsumerFactory> consumerProvider;
 
     private static CommandMetadata metadata() {
-        OptionMetadata omd = OptionMetadata.builder(TOPIC_OPT).description("Kafka topic name").valueRequired("topic_name").build();
         return CommandMetadata
                 .builder(ConsumerCommand.class)
                 .description("Starts a Kafka consumer for the specified topic")
-                .addOption(omd)
                 .build();
     }
 
@@ -38,7 +33,7 @@ public class ConsumerCommand extends CommandWithMetadata {
     @Override
     public CommandOutcome run(Cli cli) {
 
-        String topic = cli.optionString(TOPIC_OPT);
+        String topic = cli.optionString(App.TOPIC_OPT);
         if (topic == null) {
             return CommandOutcome.failed(-1, "No '--topic' specified");
         }
