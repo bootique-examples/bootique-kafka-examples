@@ -1,0 +1,8 @@
+kafkaclient:
+  clusters:
+    c1: 127.0.0.1:9092
+
+log:
+  loggers:
+    org.apache.kafka.clients:
+      level: "warn"

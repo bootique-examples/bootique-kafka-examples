@@ -1,32 +1,41 @@
-[![verify](https://github.com/bootique-examples/bootique-kafka-producer/actions/workflows/verify.yml/badge.svg)](https://github.com/bootique-examples/bootique-kafka-producer/actions/workflows/verify.yml)
+[![verify](https://github.com/bootique-examples/bootique-kafka-examples/actions/workflows/verify.yml/badge.svg)](https://github.com/bootique-examples/bootique-kafka-examples/actions/workflows/verify.yml)
 
-# bootique-kafka-producer
+# Bootique 3.x Kafka Examples
 
-An example of the producer to send streams of data to topics in the [Kafka](https://kafka.apache.org) cluster integrated for [Bootique](http://bootique.io).
+This is an example Bootique Kafka app with producer and consumer. Different Git branches contain example code for different versions of Bootique:
 
-Also consider an example of [Kafka-consumer](https://github.com/bootique-examples/bootique-kafka-consumer). 
-
-*For additional help/questions about this example send a message to
-[Bootique forum](https://groups.google.com/forum/#!forum/bootique-user).*
-
-You can find different versions of framework in use at
-* [1.x](https://github.com/bootique-examples/bootique-kafka-producer/tree/1.x)
-* [2.x](https://github.com/bootique-examples/bootique-kafka-producer/tree/2.x)
+* [3.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/3.x)
+* [2.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/2.x)
+* [1.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/1.x)
 
 ## Prerequisites
 
-* Java 1.8 or newer.
-* Apache Maven.
+To build and run the project, make sure you have the following installed on your machine, and then follow the steps below:
 
-## Build the Demo
+* Docker
+* Java 11 or newer
+* Maven
 
-Here is how to build it:
+## Checkout
+```
+git clone git@github.com:bootique-examples/bootique-kafka-examples.git
+cd bootique-kafka-examples
+```
 
-	git clone git@github.com:bootique-examples/bootique-kafka-producer.git
-	cd bootique-kafka-producer
-	mvn package
+## Start Kafka Locally
 
-## Run the Demo
+```bash
+docker-compose -f docker-compose.yml up -d
+```
+
+## Build and package
+
+Run the following command to build the code and package the app:
+```
+mvn clean package
+```
+
+## Run
 
 Now you can check the options available in your app:
 

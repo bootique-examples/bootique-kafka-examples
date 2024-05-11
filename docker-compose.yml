@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  kafka:
+    image: apache/kafka:3.7.0
+    ports:
+      # using host port other than 9092 would require a more complex Kafka container setup
+      - "9092:9092"

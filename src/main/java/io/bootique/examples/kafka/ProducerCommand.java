@@ -1,42 +1,43 @@
-package io.bootique.example.kafka.producer;
+package io.bootique.examples.kafka;
 
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import io.bootique.kafka.client.producer.KafkaProducerFactory;
-import io.bootique.meta.application.CommandMetadata;
-import io.bootique.meta.application.OptionMetadata;
 import io.bootique.cli.Cli;
 import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
-import io.bootique.shutdown.ShutdownManager;
+import io.bootique.kafka.client.producer.KafkaProducerFactory;
+import io.bootique.meta.application.CommandMetadata;
+import io.bootique.meta.application.OptionMetadata;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Runs Kafka producer.
+ * Runs an interactive Kafka producer.
  */
-public class KafkaProducerCommand extends CommandWithMetadata {
+public class ProducerCommand extends CommandWithMetadata {
 
     private static final String TOPIC_OPT = "topic";
     private static final String QUIT_COMMAND = "\\q";
 
-    private Provider<KafkaProducerFactory> kafkaProvider;
-    private ShutdownManager shutdownManager;
+    private final Provider<KafkaProducerFactory> producerProvider;
 
-    @Inject
-    public KafkaProducerCommand(Provider<KafkaProducerFactory> kafkaProvider, ShutdownManager shutdownManager) {
-        super(CommandMetadata.builder("producer").addOption(topicOption()));
-        this.kafkaProvider = kafkaProvider;
-        this.shutdownManager = shutdownManager;
+    private static CommandMetadata metadata() {
+        OptionMetadata omd = OptionMetadata.builder(TOPIC_OPT).description("Kafka topic name").valueRequired("topic_name").build();
+        return CommandMetadata
+                .builder(ProducerCommand.class)
+                .description("Starts an interactive Kafka producer for the specified topic")
+                .addOption(omd)
+                .build();
     }
 
-    private static OptionMetadata topicOption() {
-        return OptionMetadata.builder(TOPIC_OPT).description("Kafka topic to write data to.")
-                .valueRequired("topic_name").build();
+    @Inject
+    public ProducerCommand(Provider<KafkaProducerFactory> producerProvider) {
+        super(metadata());
+        this.producerProvider = producerProvider;
     }
 
     @Override
@@ -44,21 +45,19 @@ public class KafkaProducerCommand extends CommandWithMetadata {
 
         String topic = cli.optionString(TOPIC_OPT);
         if (topic == null) {
-            return CommandOutcome.failed(-1, "No --topic specified");
+            return CommandOutcome.failed(-1, "No '--topic' specified");
         }
 
-        Producer<byte[], String> producer = kafkaProvider.get()
+        Producer<byte[], String> producer = producerProvider.get()
                 .charValueProducer()
-                .cluster(App.DEFAULT_CLUSTER_NAME)
+                .cluster(App.KAFKA_CLUSTER)
                 .create();
 
-        shutdownManager.addShutdownHook(() -> {
+        try {
+            return runConsole(topic, producer);
+        } finally {
             producer.close();
-            // give a bit of time to stop..
-            Thread.sleep(200);
-        });
-
-        return runConsole(topic, producer);
+        }
     }
 
     private CommandOutcome runConsole(String topic, Producer<byte[], String> producer) {
@@ -85,7 +84,10 @@ public class KafkaProducerCommand extends CommandWithMetadata {
                 break;
             }
 
-            producer.send(new ProducerRecord<>(topic, message));
+            if (!"".equals(message)) {
+                producer.send(new ProducerRecord<>(topic, message));
+            }
+
             System.out.print(topic + " > ");
         }
     }
