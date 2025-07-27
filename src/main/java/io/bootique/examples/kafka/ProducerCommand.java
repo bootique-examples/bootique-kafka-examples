@@ -5,11 +5,11 @@ import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.producer.KafkaProducerFactory;
 import io.bootique.meta.application.CommandMetadata;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

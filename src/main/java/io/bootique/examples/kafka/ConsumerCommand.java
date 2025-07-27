@@ -5,11 +5,11 @@ import io.bootique.command.CommandOutcome;
 import io.bootique.command.CommandWithMetadata;
 import io.bootique.kafka.client.consumer.KafkaConsumerFactory;
 import io.bootique.meta.application.CommandMetadata;
+import jakarta.inject.Inject;
+import jakarta.inject.Provider;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
 import java.time.Duration;
 
 public class ConsumerCommand extends CommandWithMetadata {
