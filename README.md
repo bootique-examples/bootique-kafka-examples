@@ -1,9 +1,10 @@
 [![verify](https://github.com/bootique-examples/bootique-kafka-examples/actions/workflows/verify.yml/badge.svg)](https://github.com/bootique-examples/bootique-kafka-examples/actions/workflows/verify.yml)
 
-# Bootique 3.x Kafka Examples
+# Bootique 4.x Kafka Examples
 
 This is an example Bootique Kafka app with producer and consumer. Different Git branches contain example code for different versions of Bootique:
 
+* [4.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/4.x)
 * [3.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/3.x)
 * [2.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/2.x)
 * [1.x](https://github.com/bootique-examples/bootique-kafka-examples/tree/1.x)
@@ -13,7 +14,7 @@ This is an example Bootique Kafka app with producer and consumer. Different Git 
 To build and run the project, make sure you have the following installed on your machine, and then follow the steps below:
 
 * Docker
-* Java 11 or newer
+* Java 21 or newer
 * Maven
 
 ## Checkout
@@ -39,12 +40,12 @@ mvn clean package
 
 The following command prints a help message with supported options:
 ```bash  
-java -jar target/bootique-kafka-examples-3.0.jar
+java -jar target/bootique-kafka-examples-4.0.jar
 ```
 
 ```
 NAME
-      bootique-kafka-examples-3.0.jar
+      bootique-kafka-examples-4.0.jar
 
 OPTIONS
       --config=yaml_location
@@ -68,7 +69,7 @@ OPTIONS
 
 So first, let's run a producer that will write to `bq-kafka-example` topic:
 ```
-java -jar target/bootique-kafka-examples-3.0.jar --producer \
+java -jar target/bootique-kafka-examples-4.0.jar --producer \
     --config=config.yml \
     --topic=bq-kafka-example 
 ```
@@ -90,7 +91,7 @@ own consumer. Open a new terminal window, change to `bootique-kafka-examples/` d
 but with `--consumer` command:
 
 ```
-java -jar target/bootique-kafka-examples-3.0.jar --consumer \
+java -jar target/bootique-kafka-examples-4.0.jar --consumer \
     --config=config.yml \
     --topic=bq-kafka-example
 ```
